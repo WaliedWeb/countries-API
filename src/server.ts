@@ -1,4 +1,13 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
+import { connectDatabase } from './utils/database';
+
+// Check whether the MONGODB_COUNTRY_URL is a valid string for further processing
+if (!process.env.MONGODB_COUNTRY_URL) {
+  throw new Error('No MONGODB Country URL in dotenv available');
+}
 
 const app = express();
 const port = 3000;
@@ -16,10 +25,9 @@ app.post('/api/countries', (request, response) => {
   response.send(newCountry);
 });
 
-app.get('/', (_req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+// Start connection with database and start server
+connectDatabase(process.env.MONGODB_COUNTRY_URL).then(() =>
+  app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+  })
+);
