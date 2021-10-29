@@ -41,6 +41,24 @@ app.post('/api/countries', async (request, response) => {
   }
 });
 
+// Delete one country
+app.delete('/api/countries/:name', async (request, response) => {
+  const countryCollection = getCountryCollection();
+  const allCountries = await countryCollection.find().toArray();
+
+  const countryIndex = allCountries.findIndex(
+    (country) => country.name === request.params.name
+  );
+  console.log(countryIndex);
+  if (countryIndex === -1) {
+    response.status(404).send("Country doesn't exist. Check another Castle 🏰");
+    return;
+  } else {
+    countryCollection.deleteOne({ name: request.params.name });
+    response.send('The country was successfully deleted!');
+  }
+});
+
 // Get all countries
 app.get('/api/countries', async (_request, response) => {
   const countryDocuments = await getCountryCollection().find().toArray();
