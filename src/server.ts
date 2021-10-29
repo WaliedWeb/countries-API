@@ -11,6 +11,11 @@ app.use(express.json());
   population: '83129285'
 } */
 
+app.post('/api/countries', (request, response) => {
+  const newCountry = request.body;
+  response.send(newCountry);
+});
+
 app.get('/', (_req, res) => {
   res.send('Hello World!');
 });
