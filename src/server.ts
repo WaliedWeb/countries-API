@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
-import { connectDatabase } from './utils/database';
+import { connectDatabase, getCountryCollection } from './utils/database';
 
 // Check whether the MONGODB_COUNTRY_URL is a valid string for further processing
 if (!process.env.MONGODB_COUNTRY_URL) {
@@ -22,6 +22,8 @@ app.use(express.json());
 
 app.post('/api/countries', (request, response) => {
   const newCountry = request.body;
+  const countryCollection = getCountryCollection();
+  countryCollection.insertOne(newCountry);
   response.send(newCountry);
 });
 
