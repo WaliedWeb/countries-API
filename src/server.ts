@@ -41,6 +41,18 @@ app.post('/api/countries', async (request, response) => {
   }
 });
 
+// update
+app.patch('/api/countries/:name', async (request, response) => {
+  const countryCollection = getCountryCollection();
+  const countryName = request.params.name;
+  const updateItem = request.body;
+
+  // const allCountries = await countryCollection.find().toArray();
+
+  countryCollection.updateOne({ name: `${countryName}` }, { $set: updateItem });
+  response.send('Successfully updated!');
+});
+
 // Delete one country
 app.delete('/api/countries/:name', async (request, response) => {
   const countryCollection = getCountryCollection();
