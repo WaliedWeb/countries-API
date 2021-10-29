@@ -14,17 +14,30 @@ const port = 3000;
 
 app.use(express.json());
 
-/* const country = {
-  name: 'Germany',
-  capital: 'Berlin',
-  population: '83129285'
-} */
-
-app.post('/api/countries', (request, response) => {
+app.post('/api/countries', async (request, response) => {
   const newCountry = request.body;
   const countryCollection = getCountryCollection();
-  countryCollection.insertOne(newCountry);
-  response.send(newCountry);
+
+  if (
+    typeof newCountry.name !== 'string' ||
+    typeof newCountry.capital !== 'string' ||
+    typeof newCountry.population !== 'number'
+  ) {
+    response.status(400).send('Missing properties');
+    return;
+  }
+
+  const existingCountry = await countryCollection.findOne({
+    name: newCountry.name,
+  });
+
+  if (!existingCountry) {
+    const countryDocument = await countryCollection.insertOne(newCountry);
+    const responseDocument = { ...newCountry, ...countryDocument.insertedId };
+    response.status(200).send(responseDocument);
+  } else {
+    response.status(409).send('Countryname is already taken');
+  }
 });
 
 // Start connection with database and start server

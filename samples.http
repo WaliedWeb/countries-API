@@ -7,3 +7,13 @@ Content-Type: application/json
     "capital": "Berlin",
     "population": 83129285
 }
+
+### Post another single country
+POST http://localhost:3000/api/countries HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "France",
+    "capital": "Paris",
+    "population": 67422000
+}
