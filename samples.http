@@ -18,5 +18,11 @@ Content-Type: application/json
     "population": 67422000
 }
 
+### Delete one country
+DELETE http://localhost:3000/api/countries/Germany HTTP/1.1
+
+### Delete another country
+DELETE http://localhost:3000/api/countries/France HTTP/1.1
+
 ### Get all countries
 GET http://localhost:3000/api/countries HTTP/1.1
