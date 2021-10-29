@@ -14,6 +14,7 @@ const port = 3000;
 
 app.use(express.json());
 
+// Post one country
 app.post('/api/countries', async (request, response) => {
   const newCountry = request.body;
   const countryCollection = getCountryCollection();
@@ -37,6 +38,17 @@ app.post('/api/countries', async (request, response) => {
     response.status(200).send(responseDocument);
   } else {
     response.status(409).send('Countryname is already taken');
+  }
+});
+
+// Get all countries
+app.get('/api/countries', async (_request, response) => {
+  const countryDocuments = await getCountryCollection().find().toArray();
+
+  if (countryDocuments.length > 0) {
+    response.status(200).send(countryDocuments);
+  } else {
+    response.status(409).send('Countries do not exist.');
   }
 });
 

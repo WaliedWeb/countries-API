@@ -17,3 +17,6 @@ Content-Type: application/json
     "capital": "Paris",
     "population": 67422000
 }
+
+### Get all countries
+GET http://localhost:3000/api/countries HTTP/1.1
