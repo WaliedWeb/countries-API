@@ -1,0 +1,9 @@
+### Post one country
+POST http://localhost:3000/api/countries HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Germany",
+    "capital": "Berlin",
+    "population": 83129285
+}
